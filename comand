@@ -1,11 +1,1 @@
-set FFMPEG=vendor\ffmpeg\win\ffmpeg.exe
-set RTMP=rtmp://192.168.1.72:1935/live/stream
-set AUDIO=audio="Stereo Mix (Realtek(R) Audio)"
-
-"%FFMPEG%" -loglevel debug -report ^
- -f gdigrab -framerate 30 -draw_mouse 1 -i desktop ^
- -f dshow -i %AUDIO% ^
- -vf "scale=1920:1080:force_original_aspect_ratio=decrease,setsar=1,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,format=yuv420p" ^
- -c:v libx264 -preset veryfast -tune zerolatency -g 60 ^
- -c:a aac -ar 44100 -b:a 128k ^
- -f flv %RTMP%
+ffplay -fflags nobuffer -flags low_delay -rtmp_live live rtmp://192.168.1.72:1935/live/stream
