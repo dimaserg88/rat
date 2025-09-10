@@ -1,0 +1,6 @@
+ffmpeg \
+  -f avfoundation -framerate 30 -capture_cursor 1 \
+  -i "1:none" \
+  -vf "scale=1920:1080:force_original_aspect_ratio=decrease,setsar=1,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,format=yuv420p" \
+  -c:v libx264 -preset veryfast -tune zerolatency -g 60 \
+  -f flv rtmp://192.168.1.72:1935/live/stream
