@@ -1,1 +1,11 @@
 ffplay -fflags nobuffer -flags low_delay -rtmp_live live rtmp://192.168.1.72:1935/live/stream
+
+
+
+
+ffmpeg -f avfoundation -framerate 30 -i "1:none" \ 
+  -fflags nobuffer -flags low_delay -max_delay 0 \
+  -vf "scale=1920:1080:force_original_aspect_ratio=decrease,setsar=1,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,format=yuv420p" \
+  -c:v libx264 -preset veryfast -tune zerolatency -g 30 -x264-params keyint=30:min-keyint=30:scenecut=0 \
+  -an -flvflags no_duration_filesize \
+  -f flv rtmp://192.168.1.72:1935/live/stream
