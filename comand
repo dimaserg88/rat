@@ -16,12 +16,4 @@ ffmpeg -f avfoundation -framerate 30 -i "1:none" \
 
 WINDOWS
 
-ffmpeg `
- -f gdigrab -framerate 30 -draw_mouse 1 -i desktop `
- -thread_queue_size 512 -f dshow -i 'audio=Stereo Mix (Realtek(R) Audio)' `
- -fflags nobuffer -flags low_delay `
- -vf 'scale=1920:1080:force_original_aspect_ratio=decrease,setsar=1,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,format=yuv420p' `
- -c:v libx264 -preset veryfast -tune zerolatency -g 30 -x264-params 'keyint=30:min-keyint=30:scenecut=0' `
- -c:a aac -b:a 128k -ar 44100 -ac 2 `
- -flvflags no_duration_filesize -rtmp_live live `
- -f flv rtmp://192.168.1.72:1935/live/stream
+ffmpeg -f gdigrab -framerate 30 -draw_mouse 1 -i desktop -thread_queue_size 512 -f dshow -i audio="Stereo Mix (Realtek(R) Audio)" -fflags nobuffer -flags low_delay -vf "scale=1920:1080:force_original_aspect_ratio=decrease,setsar=1,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,format=yuv420p" -c:v libx264 -preset veryfast -tune zerolatency -g 30 -x264-params keyint=30:min-keyint=30:scenecut=0 -c:a aac -b:a 128k -ar 44100 -ac 2 -flvflags no_duration_filesize -rtmp_live live -f flv rtmp://192.168.1.72:1935/live/stream
